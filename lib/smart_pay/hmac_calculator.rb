@@ -11,12 +11,12 @@ module SmartPay
     def signature
       raise_if_key_missing
       hmac = OpenSSL::HMAC.digest('sha1', @psk, @parameters.join)
-      Base64.encode64(hmac)
+      Base64.encode64(hmac).chomp
     end
 
     def verify(merchant_sig)
       raise_if_key_missing
-      "#{merchant_sig}\n" == signature
+      "#{merchant_sig}" == signature
     end
 
     private
